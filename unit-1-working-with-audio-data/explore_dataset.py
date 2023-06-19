@@ -18,16 +18,17 @@ def generate_audio() -> Tuple[Tuple[int, np.ndarray], Figure]:
     example = minds.shuffle()[0]
     sr = example["audio"]["sampling_rate"]
     audio_arr = example["audio"]["array"]
+    label = id2label(example["intent_class"])
 
     fig,ax = plt.subplots(1,1)
     librosa.display.waveshow(audio_arr, sr=sr, ax=ax)
-    return (sr, audio_arr), fig
+    return label, (sr, audio_arr), fig
 
 
 iface = gr.Interface(
     fn=generate_audio,
     inputs=[],
-    outputs=["audio", "plot"],
+    outputs=["text", "audio", "plot"],
     title=f"Listen and see Audio in {LANGUAGE}"
 ).launch()
 
